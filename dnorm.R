@@ -4,11 +4,11 @@ library(magrittr)
 library(ggplot2)
 
 ####work####
-dt<-data.frame(x="x",mean=0.51,sd=0.016)
+dt<-data.frame(x="x",mean=0.51,ci=0.016)
 p<-ggplot(data=dt, aes(x=x,y=mean))+
   geom_line()+
   geom_point()+
-  geom_errorbar(aes(ymin=mean-sd, ymax=mean+sd))
+  geom_errorbar(aes(ymin=mean-ci, ymax=mean+ci))
 p
 
 
@@ -86,7 +86,7 @@ hi <- qnorm(1-alpha/2, mean=mu, sd=sd)  # upper CI bound
 
 # start with an empty plot
 plot(NULL,NULL, type='n', xlim=range(x), ylim=range(y),
-     xlab=NA, ylab="Probability density", las=1)
+     xlab=NA, ylab="Probability density", las=1, xaxt="n")
 
 xci <- seq(lo, hi, len=100)             # background: confidence interval
 yci <- dnorm(xci, mean=mu, sd=sd)
@@ -102,4 +102,5 @@ lines(c(mu-sd,mu-sd), c(0,dnorm(mu-sd,mean=mu,sd=sd)), lty="dashed", lwd=0.5) # 
 lines(c(mu+sd,mu+sd), c(0,dnorm(mu+sd,mean=mu,sd=sd)), lty="dashed", lwd=0.5) # mu + s.d.
 abline(h=0, lwd=0.5) # proper y=0 line
 text(mean(x), mean(y), sprintf("%.0f%%", 100*(1-alpha)))
+axis(side = "1", at=c(0.2,0.4,0.6,0.8))
 
